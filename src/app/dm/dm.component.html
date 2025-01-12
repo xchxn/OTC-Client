@@ -1,0 +1,25 @@
+<div class="dmContainer">
+  <div class="receiver-list">
+    <h3>DM List</h3>
+    <div>
+      <button class="dmList" *ngFor="let receiver of dmList$ | async" (click)="selectDm(receiver.userId)">
+        {{ receiver.username }}
+      </button>
+    </div>
+  </div>
+  
+  <div class="nowDmContainer">
+    <div class="messageListContainer" #messageListContainer>
+      <div class="messageContainer" *ngFor="let msg of messages"
+      [ngClass]="{'myMessage': msg.senderId === userId, 'otherMessage': msg.senderId !== userId}">
+        {{ msg.message }}
+      </div>
+    </div>
+    <form [formGroup]="messageForm" (ngSubmit)="send()">
+      <div>
+        <input id="message" formControlName="message">
+        <button class="sendDm" type="submit">Send Message</button>
+      </div>
+    </form>
+  </div>
+</div>

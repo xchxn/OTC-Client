@@ -1,0 +1,17 @@
+<div>
+  <div class="logo-container">
+    <img src="1500x500.jpg" alt="Logo">
+  </div>
+  <div class="notices-container">
+    <h2>공지사항</h2>
+    <div class="notices-list">
+      <div *ngFor="let notice of notices" class="notice-item" [class.important]="notice.important">
+        <div class="notice-header">
+          <h3>{{ notice.title }}</h3>
+          <span class="date">{{ notice.date }}</span>
+        </div>
+        <p class="notice-content">{{ notice.content }}</p>
+      </div>
+    </div>
+  </div>
+</div>

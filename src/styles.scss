@@ -1,0 +1,111 @@
+/* Global Styles */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: "Noto Sans KR", sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  box-sizing: border-box;
+}
+
+nav, footer {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+}
+
+/* Global Theme Variables */
+:root {
+  /* Light mode - Apple Design System Colors */
+  --background-color: #FFFFFF;
+  --text-color: #1D1D1F;
+  --primary-color: #0066CC;
+  --secondary-color: #F5F5F7;
+  --accent-color: #007AFF;
+  --error-color: #FF3B30;
+  --success-color: #34C759;
+  --warning-color: #FF9500;
+  --border-color: #D2D2D7;
+  --subtle-color: #86868B;
+  
+  /* Additional UI Colors */
+  --card-background: #FFFFFF;
+  --icon-background: rgba(60, 60, 67, 0.3);
+  --hover-background: rgba(0, 122, 255, 0.1);
+  --separator-color: rgba(60, 60, 67, 0.1);
+  --form-background: #F5F5F7;
+}
+
+.dark-mode {
+  /* Dark mode - Apple Design System Colors */
+  --background-color: #000000;
+  --text-color: #F5F5F7;
+  --primary-color: #0A84FF;
+  --secondary-color: #1C1C1E;
+  --accent-color: #0A84FF;
+  --error-color: #FF453A;
+  --success-color: #32D74B;
+  --warning-color: #FF9F0A;
+  --border-color: #424245;
+  --subtle-color: #98989D;
+  
+  /* Additional UI Colors - Dark Mode */
+  --card-background: #1C1C1E;
+  --icon-background: rgba(235, 235, 245, 0.3);
+  --hover-background: rgba(10, 132, 255, 0.1);
+  --separator-color: rgba(235, 235, 245, 0.1);
+  --form-background: #2C2C2E;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  color: #2E3B55; // 주요 제목 색상
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Link Styles */
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
+  }
+}
+
+/* Utility Classes */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mt-1 { margin-top: 0.25rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 1rem; }
+.mb-1 { margin-bottom: 0.25rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-3 { margin-bottom: 1rem; }
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 0.5rem;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+}

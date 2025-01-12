@@ -1,0 +1,133 @@
+.mypage-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+
+  .profile-section {
+    background-color: var(--card-background);
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    padding: 2rem;
+
+    .profile-header {
+      margin-bottom: 2rem;
+      text-align: center;
+
+      h1 {
+        font-size: 2rem;
+        font-weight: 600;
+        color: var(--text-color);
+        margin-bottom: 0.5rem;
+      }
+
+      .subtitle {
+        color: var(--subtle-color);
+        font-size: 1rem;
+      }
+    }
+
+    .profile-form {
+      .form-group {
+        margin-bottom: 1.5rem;
+
+        label {
+          display: block;
+          font-size: 0.9rem;
+          font-weight: 500;
+          color: var(--subtle-color);
+          margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+          width: 100%;
+          padding: 0.875rem;
+          font-size: 1rem;
+          border: 1.5px solid var(--border-color);
+          border-radius: 12px;
+          background-color: var(--form-background);
+          color: var(--text-color);
+          transition: all 0.2s ease;
+
+          &::placeholder {
+            color: var(--subtle-color);
+            opacity: 0.7;
+          }
+
+          &:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
+          }
+        }
+      }
+    }
+
+    .form-actions {
+      margin-top: 2rem;
+      display: flex;
+      justify-content: flex-end;
+
+      .btn {
+        padding: 0.875rem 1.5rem;
+        font-size: 1rem;
+        font-weight: 500;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        &.primary {
+          background-color: var(--accent-color);
+          color: white;
+
+          &:hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+          }
+        }
+      }
+    }
+
+    .danger-zone {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border-color);
+
+      h2 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--error-color);
+        margin-bottom: 1rem;
+      }
+
+      .danger-actions {
+        .btn.danger {
+          background-color: var(--error-color);
+          color: white;
+          padding: 0.875rem 1.5rem;
+          font-size: 1rem;
+          font-weight: 500;
+          border: none;
+          border-radius: 12px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+
+          &:hover {
+            background-color: darken(#FF3B30, 5%);
+            transform: translateY(-1px);
+          }
+
+          i {
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+  }
+}

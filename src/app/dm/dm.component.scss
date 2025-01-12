@@ -1,0 +1,205 @@
+.dmContainer {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 0;
+  max-width: 1200px;
+  margin: 2rem 2rem;
+  height: calc(100vh - 8rem);
+  background-color: var(--card-background);
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  position: relative;
+
+  .receiver-list {
+    background-color: var(--form-background);
+    border-right: 1px solid var(--border-color);
+    height: 100%;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: var(--form-background);
+      border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--subtle-color);
+      border-radius: 4px;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-color);
+      margin: 0;
+      padding: 1.5rem;
+      position: sticky;
+      top: 0;
+      background-color: var(--form-background);
+      z-index: 1;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    div {
+      padding: 1rem;
+    }
+
+    .dmList {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      margin-bottom: 0.5rem;
+      background: none;
+      border: none;
+      border-radius: 12px;
+      color: var(--text-color);
+      font-size: 1rem;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background-color: var(--hover-background);
+      }
+
+      &.active {
+        background-color: var(--hover-background);
+        color: var(--accent-color);
+        font-weight: 500;
+      }
+    }
+  }
+
+  .nowDmContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+
+    p {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--text-color);
+      margin: 0;
+      padding: 1.25rem 1.5rem;
+      background-color: var(--card-background);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    .messageListContainer {
+      height: 0;
+      flex-grow: 1;
+      min-height: 0;
+      overflow-y: auto;
+      margin-bottom: 1rem;
+      padding: 1.5rem;
+      padding-bottom: 5rem;
+
+      &::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: var(--form-background);
+        border-radius: 4px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: var(--subtle-color);
+        border-radius: 4px;
+      }
+
+      .messageContainer {
+        max-width: 70%;
+        margin-bottom: 1rem;
+        padding: 0.75rem 1rem;
+        border-radius: 16px;
+        line-height: 1.4;
+        word-break: break-word;
+        font-size: 0.95rem;
+
+        &.myMessage {
+          margin-left: auto;
+          background-color: var(--accent-color);
+          color: white;
+          border-bottom-right-radius: 4px;
+        }
+
+        &.otherMessage {
+          margin-right: auto;
+          background-color: var(--form-background);
+          color: var(--text-color);
+          border-bottom-left-radius: 4px;
+        }
+      }
+    }
+
+    form {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1rem 1.5rem;
+      background-color: var(--card-background);
+      border-top: 1px solid var(--border-color);
+
+      div {
+        display: flex;
+        gap: 0.75rem;
+        background-color: var(--form-background);
+        padding: 0.75rem;
+        border-radius: 12px;
+
+        input {
+          flex: 1;
+          padding: 0.75rem 1rem;
+          border: none;
+          border-radius: 8px;
+          background-color: var(--card-background);
+          color: var(--text-color);
+          font-size: 0.95rem;
+
+          &:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--accent-color);
+          }
+        }
+
+        .sendDm {
+          padding: 0.75rem 1.25rem;
+          background-color: var(--accent-color);
+          color: white;
+          border: none;
+          border-radius: 8px;
+          font-size: 0.95rem;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          min-width: 80px;
+
+          &:hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+          }
+
+          &:active {
+            transform: translateY(0);
+          }
+
+          &:disabled {
+            background-color: var(--subtle-color);
+            cursor: not-allowed;
+            transform: none;
+            opacity: 0.7;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,241 @@
+<div class="mainContainer">
+  <div class="searchFormContainer">
+    <div class="filterFormContainer">
+      <!-- 오브젝트 필터 -->
+      <form class="objektFilterForm" [formGroup]="objektFilterForm" (ngSubmit)="getThumbnail()">
+        <div class="form-group">
+          <label for="season">Season</label>
+          <select id="season" formControlName="season" class="form-select">
+            @for (season of objektFilter.season; track season) {
+            <option [value]="season">{{season}}</option>
+            }
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="member">Member</label>
+          <select id="member" formControlName="member" class="form-select">
+            @for (member of objektFilter.member; track member) {
+            <option [value]="member">{{member}}</option>
+            }
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="classes">Classes</label>
+          <select id="classes" formControlName="classes" class="form-select">
+            @for (classes of objektFilter.classes; track classes) {
+            <option [value]="classes">{{classes}}</option>
+            }
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="collectionNo">Collection No</label>
+          <select id="collectionNo" formControlName="collectionNo" class="form-select">
+            @for (collectionNo of objektFilter.collectionNo; track collectionNo) {
+            <option [value]="collectionNo">{{collectionNo}}</option>
+            }
+          </select>
+        </div>
+      </form>
+      <div class="button-group end">
+        <button type="button" class="btn secondary" (click)="addObjektToHaveArray()" aria-label="Find Have items">Have
+          찾기</button>
+        <button type="button" class="btn primary" (click)="addObjektToWantArray()" aria-label="Find Want items">Want
+          찾기</button>
+      </div>
+    </div>
+
+    <!-- 필터로 검색해서 찾기 -->
+    <div class="objektArrayContainer">
+      <form class="objektArrayForm" [formGroup]="searchForm" (ngSubmit)="searchObjekt()">
+        <div class="searchObjektArray" *ngIf="searchForm.get('objekt.have')?.value.length > 0">
+          <h3 class="array-title">Have</h3>
+          <div class="objekt-grid">
+            <div class="objekt-container" *ngFor="let haveItem of searchForm.get('objekt.have')?.value; let i = index">
+              <img [src]="haveItem.thumbnailImage" [alt]="'Collection ' + haveItem.collectionId" class="objekt-img">
+              <div class="custom-tooltip">
+                <div class="tooltip-row">
+                  <span class="label">Season:</span>
+                  <span class="value">{{ haveItem.season }}</span>
+                </div>
+                <div class="tooltip-row">
+                  <span class="label">Member:</span>
+                  <span class="value">{{ haveItem.member }}</span>
+                </div>
+                <div class="tooltip-row">
+                  <span class="label">Collection:</span>
+                  <span class="value">#{{ haveItem.collectionId }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="searchObjektArray" *ngIf="searchForm.get('objekt.want')?.value.length > 0">
+          <h3 class="array-title">Want</h3>
+          <div class="objekt-grid">
+            <div class="objekt-container" *ngFor="let wantItem of searchForm.get('objekt.want')?.value; let i = index">
+              <img [src]="wantItem.thumbnailImage" [alt]="'Collection ' + wantItem.collectionId" class="objekt-img">
+              <div class="custom-tooltip">
+                <div class="tooltip-row">
+                  <span class="label">Season:</span>
+                  <span class="value">{{ wantItem.season }}</span>
+                </div>
+                <div class="tooltip-row">
+                  <span class="label">Member:</span>
+                  <span class="value">{{ wantItem.member }}</span>
+                </div>
+                <div class="tooltip-row">
+                  <span class="label">Collection:</span>
+                  <span class="value">#{{ wantItem.collectionId }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="button-group end">
+          <button type="button" class="btn secondary" (click)="resetOptions()" aria-label="Reset search">Reset</button>
+          <button type="submit" class="btn primary" aria-label="Search Objekt">Search Objekt</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="button-group end action-buttons">
+    <button type="button" class="btn secondary" (click)="getMyPost()" aria-label="View my posts">
+      My Post
+    </button>
+    <button type="button" class="btn secondary" (click)="searchWithPosting()" aria-label="Search matching posts">
+      Search Matching for post
+    </button>
+    <button class="btn primary" routerLink="/post" routerLinkActive="active" ariaCurrentWhenActive="page"
+      aria-label="Create new post">
+      Post
+    </button>
+  </div>
+
+  <!-- 포스팅 목록 -->
+  @for (posting of postings; track posting.posting_id) {
+  <div class="postingCards">
+    <div class="postingCardTitle">
+      <ng-container *ngIf="updateMode && userId === posting.posting_userId; else viewTitle">
+        <div class="form-group">
+          <label for="title-{{posting.posting_id}}">Title</label>
+          <input type="text" id="title-{{posting.posting_id}}" class="form-control" [(ngModel)]="posting.posting_title"
+            placeholder="Enter title" />
+        </div>
+      </ng-container>
+      <ng-template #viewTitle>
+        <h2>{{ posting.posting_title }}</h2>
+      </ng-template>
+    </div>
+
+    <div class="postingOption">
+      <div class="user-actions">
+        <button type="button" class="username-button" (click)="showMenu(posting)">
+          {{ posting.auth_username }}
+        </button>
+        <div class="menu" *ngIf="showMenuId === posting.posting_id">
+          <button type="button" (click)="goDM(posting.posting_userId, posting.auth_username)">
+            <i class="fa-solid fa-message"></i>
+            <span>DM</span>
+          </button>
+          <button type="button" (click)="showMenu(posting)">
+            <i class="fa-solid fa-close"></i>
+            <span>Close</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="post-actions" *ngIf="userId === posting.posting_userId">
+        <button type="button" class="more-button" (click)="showPostActions(posting)">
+          More
+        </button>
+        <div class="post-actions-menu" *ngIf="showPostActionsId === posting.posting_id">
+          <button type="button" (click)="changeUpdateMode()">
+            <i class="fa-solid fa-edit"></i>
+            <span>Update</span>
+          </button>
+          <button type="button" (click)="deletePosting(posting)">
+            <i class="fa-solid fa-trash"></i>
+            <span>Delete</span>
+          </button>
+          <button type="button"(click)="showPostActions(posting)">
+            <i class="fa-solid fa-close"></i>
+            <span>Close</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="postingContent">
+      <ng-container *ngIf="updateMode && userId === posting.posting_userId; else viewContent">
+        <div class="form-group">
+          <label for="content-{{posting.posting_id}}">Content</label>
+          <input type="text" id="content-{{posting.posting_id}}" class="form-control" [(ngModel)]="posting.posting_content"
+            placeholder="Enter content" />
+        </div>
+      </ng-container>
+      <ng-template #viewContent>
+        <p>{{ posting.posting_content }}</p>
+      </ng-template>
+    </div>
+    <div class="objektArray">
+      <div class="array-section">
+        <h4>Have</h4>
+        <div class="objekt-grid">
+          <div class="objekt-container" *ngFor="let thumb of posting?.thumbnails?.have">
+            <img [src]="thumb.thumbnailImage" [alt]="'Collection ' + thumb.collectionId" class="objekt-img">
+            <div class="custom-tooltip">
+              <div class="tooltip-row">
+                <span class="label">Season:</span>
+                <span class="value">{{ thumb.season }}</span>
+              </div>
+              <div class="tooltip-row">
+                <span class="label">Member:</span>
+                <span class="value">{{ thumb.member }}</span>
+              </div>
+              <div class="tooltip-row">
+                <span class="label">Collection:</span>
+                <span class="value">#{{ thumb.collectionId }}</span>
+              </div>
+            </div>
+            <button class="pop-button" (click)="popHaveObjekt(posting.posting_id, thumb)"
+              *ngIf="userId === posting.posting_userId && updateMode">
+              <i class="fa-solid fa-x"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="array-section">
+        <h4>Want</h4>
+        <div class="objekt-grid">
+          <div class="objekt-container" *ngFor="let thumb of posting?.thumbnails?.want">
+            <img [src]="thumb.thumbnailImage" [alt]="'Collection ' + thumb.collectionId" class="objekt-img">
+            <div class="custom-tooltip">
+              <div class="tooltip-row">
+                <span class="label">Season:</span>
+                <span class="value">{{ thumb.season }}</span>
+              </div>
+              <div class="tooltip-row">
+                <span class="label">Member:</span>
+                <span class="value">{{ thumb.member }}</span>
+              </div>
+              <div class="tooltip-row">
+                <span class="label">Collection:</span>
+                <span class="value">#{{ thumb.collectionId }}</span>
+              </div>
+            </div>
+            <button class="pop-button" (click)="popWantObjekt(posting.posting_id, thumb)"
+              *ngIf="userId === posting.posting_userId && updateMode">
+              <i class="fa-solid fa-x"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="updateModeButton" *ngIf="userId === posting.posting_userId && updateMode">
+      <button type="button" (click)="updatePosting(posting.posting_id)">Update</button>
+      <button type="button" (click)="changeUpdateMode()">Cancel</button>
+    </div>
+  </div>
+  }
+</div>

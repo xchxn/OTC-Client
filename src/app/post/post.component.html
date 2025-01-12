@@ -1,0 +1,104 @@
+<div class="postContainer">
+  <form class="postingFormContainer" [formGroup]="postingForm" (ngSubmit)="createPosting()">
+    <div class="postingForm">
+      <div class="form-group">
+        <label for="title">Title:</label>
+        <input type="text" class="form-control" id="title" placeholder="Title" formControlName="title">
+      </div>
+      <div class="form-group">
+        <label for="content">Content:</label>
+        <textarea class="form-control" id="content" placeholder="Content" formControlName="content">
+        </textarea>
+      </div>
+    </div>
+    <div class="submitButton">
+      <button type="submit" class="btn primary">Submit Post</button>
+    </div>
+  </form>
+  <div>
+    <form class="objektFilterForm" [formGroup]="objektFilterForm" (ngSubmit)="getThumbnail()">
+      <div class="form-group">
+        <label for="season">Season</label>
+        <select id="season" class="form-select" formControlName="season">
+          <option *ngFor="let season of objektFilter.season" [value]="season">{{ season }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="member">Member</label>
+        <select id="member" class="form-select" formControlName="member">
+          <option *ngFor="let member of objektFilter.member" [value]="member">{{ member }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="classes">Classes</label>
+        <select id="classes" class="form-select" formControlName="classes">
+          <option *ngFor="let classes of objektFilter.classes" [value]="classes">{{ classes }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="collectionNo">Collection No</label>
+        <select id="collectionNo" class="form-select" formControlName="collectionNo">
+          <option *ngFor="let collectionNo of objektFilter.collectionNo" [value]="collectionNo">{{ collectionNo }}</option>
+        </select>
+      </div>
+      <div class="button-group end">
+        <button type="button" class="btn primary" (click)="addObjektToHaveArray()">Have 가져오기</button>
+        <button type="button" class="btn primary" (click)="addObjektToWantArray()">Want 가져오기</button>
+        <button type="button" class="btn warning" (click)="resetObjektArray()">Reset</button>
+      </div>
+    </form>
+
+    <div class="postingValues">
+      <div class="objekt-array">
+        <div class="array-section">
+          <h4>Have</h4>
+          <div class="objekt-grid">
+            <div class="objekt-container" *ngFor="let thumb of haveObjektThumbnail">
+              <img [src]="thumb.thumbnailImage" 
+                   [alt]="'Collection ' + thumb.collectionId"
+                   class="objekt-img">
+              <div class="custom-tooltip">
+                <div class="tooltip-row">
+                  <span class="label">Season:</span>
+                  <span class="value">{{ thumb.season }}</span>
+                </div>
+                <div class="tooltip-row">
+                  <span class="label">Member:</span>
+                  <span class="value">{{ thumb.member }}</span>
+                </div>
+                <div class="tooltip-row">
+                  <span class="label">Collection:</span>
+                  <span class="value">#{{ thumb.collectionId }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="array-section">
+          <h4>Want</h4>
+          <div class="objekt-grid">
+            <div class="objekt-container" *ngFor="let thumb of wantObjektThumbnail">
+              <img [src]="thumb.thumbnailImage" 
+                   [alt]="'Collection ' + thumb.collectionId"
+                   class="objekt-img">
+              <div class="custom-tooltip">
+                <div class="tooltip-row">
+                  <span class="label">Season:</span>
+                  <span class="value">{{ thumb.season }}</span>
+                </div>
+                <div class="tooltip-row">
+                  <span class="label">Member:</span>
+                  <span class="value">{{ thumb.member }}</span>
+                </div>
+                <div class="tooltip-row">
+                  <span class="label">Collection:</span>
+                  <span class="value">#{{ thumb.collectionId }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
