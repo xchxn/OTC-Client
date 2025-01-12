@@ -34,6 +34,9 @@ export class AppComponent {
   }
 
   ngOnInit() {
+    //.env test
+    console.log(process.env['API_URL']);
+
     // 로그인 상태를 구독
     this.authService.isLoggedIn$.subscribe(status => {
       this.isLoggedIn = status;
