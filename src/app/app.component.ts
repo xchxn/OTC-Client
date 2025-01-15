@@ -39,43 +39,44 @@ export class AppComponent {
       this.isLoggedIn = status;
     });
 
-    // 토큰 만료 확인
-    this.authService.requestAccessToken().subscribe({
-      next: (response) => {
-        console.log('Access token refreshed successfully!');
-      },
-      error: (error) => {
-        console.error('Failed to refresh access token:', error);
-      },
-      complete: () => {
-        console.log('Access token refresh complete!');
+    if (!this.isLoggedIn) {
+      this.setupRouterEvents();
+    }
+    
+      // 토큰 만료 확인
+      this.authService.requestAccessToken().subscribe({
+        next: (response) => {
+          console.log('Access token refreshed successfully!');
+        },
+        error: (error) => {
+          console.error('Failed to refresh access token:', error);
+        },
+        complete: () => {
+          console.log('Access token refresh complete!');
+        }
+      });
+
+      const accessToken = localStorage.getItem('accessToken');
+      const refreshToken = localStorage.getItem('refreshToken');
+      this.userId = localStorage.getItem('userId');
+
+      const data = {
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+        userId: this.userId,
       }
-    });
-
-    const accessToken = localStorage.getItem('accessToken');
-    const refreshToken = localStorage.getItem('refreshToken');
-    this.userId = localStorage.getItem('userId');
-
-    const data = {
-      accessToken : accessToken,
-      refreshToken : refreshToken,
-      userId : this.userId,
-    }
-    if (accessToken) {
-      // JWT 토큰을 localStorage에 저장
-      this.authService.isLogin(data);
-      // this.router.navigate(['/board']);
-    }
-
-    this.setupRouterEvents();
+      if (accessToken) {
+        // JWT 토큰을 localStorage에 저장
+        this.authService.isLogin(data);
+      }
+    
   }
-
   setupRouterEvents() {
     this.router.events
       .pipe(
         filter(event => event instanceof NavigationEnd),
         filter((event: NavigationEnd) => event.url.startsWith('/?accessToken'))
-    )
+      )
       .subscribe((event: NavigationEnd) => {
         console.log('Route changed, do something:', event.url);
         // 현재 URL에서 토큰 추출

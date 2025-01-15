@@ -40,7 +40,6 @@ export class DmComponent {
   constructor(
     private dmService: DmService,
     private formBuilder: FormBuilder,
-    private cookieService: CookieService,
     private route: ActivatedRoute,
     private router: Router,
 

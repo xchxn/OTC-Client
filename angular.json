@@ -15,11 +15,11 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/frontend",
             "index": "src/index.html",
-            "browser": "src/main.ts",
+            "main": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -39,6 +39,7 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "/",
               "budgets": [
                 {
                   "type": "initial",
@@ -71,11 +72,7 @@
               "buildTarget": "Frontend:build:development"
             }
           },
-          "defaultConfiguration": "development",
-          "options": {
-            "host": "0.0.0.0",
-            "port": 4200
-          }
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n"

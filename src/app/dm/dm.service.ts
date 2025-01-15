@@ -14,9 +14,8 @@ export class DmService {
   
   constructor(
     private http: HttpClient,
-    private cookieService: CookieService,
   ) {
-    this.connect(this.cookieService.get('userId'));
+    this.connect(`${localStorage.getItem('userId')}`);
   }
 
   httpOptions = {
@@ -28,16 +27,13 @@ export class DmService {
 
   private connect(userId: string): void {
     this.socket = io(
-      'rediss://otp-cache-q9koki.serverless.apn2.cache.amazonaws.com:6379', 
+      this.apiUrl,
       {
-        autoConnect: false,
-        transports: [ "websocket" ],
-        secure: true,
-        rejectUnauthorized: false
+        autoConnect: false, 
+        transports: [ "websocket" ]
       }
     );
     this.socket.connect();
-    const channelName = 'valkey-channel';
 
     // 연결 상태 확인
     this.socket.on('connect', () => {
