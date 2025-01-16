@@ -31,11 +31,20 @@ export class DmComponent {
   dmList$: BehaviorSubject<Array<{ userId: string, username?: string }>> = new BehaviorSubject<{ userId: string; username?: string; }[]>([]);
 
   selectedReceiverId!: string;
+  selectedUsername!: string;
   userId!: any;
 
   isInitialLoad: boolean = true;
 
+  isMobileView: boolean = false;
+  showReceiverList: boolean = true;
+
   @ViewChild('messageListContainer') messageListContainer!: ElementRef;
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkMobileView();
+  }
 
   constructor(
     private dmService: DmService,
@@ -46,6 +55,8 @@ export class DmComponent {
   ) { }
 
   ngOnInit() {
+    this.checkMobileView();
+
     this.userId = localStorage.getItem('userId');
 
     if (!this.userId) {
@@ -90,11 +101,31 @@ export class DmComponent {
     });
   }
 
+  checkMobileView() {
+    this.isMobileView = window.innerWidth <= 768;
+    if (!this.isMobileView) {
+      this.showReceiverList = true;
+    }
+  }
+
+  toggleReceiverList() {
+    if (this.isMobileView) {
+      this.showReceiverList = !this.showReceiverList;
+    }
+  }
+
   // Dm리스트에서 하나를 선택했을 때 소켓 연결?
   // receiverId: string
   selectDm(receiver: string): void {
     this.isInitialLoad = true;
     this.selectedReceiverId = receiver;
+
+    const selectedUser = this.dmList.find(dm => dm.userId === receiver);
+    this.selectedUsername = selectedUser?.username || receiver;
+
+    if (this.isMobileView) {
+      this.showReceiverList = false;
+    }
 
     // 기존 구독 해제
     if (this.fetchMessagesSubscription) {

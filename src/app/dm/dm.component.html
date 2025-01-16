@@ -1,14 +1,21 @@
 <div class="dmContainer">
-  <div class="receiver-list">
-    <h3>DM List</h3>
+  <div class="receiver-list" [class.active]="showReceiverList">
+    <h3>Messages</h3>
     <div>
-      <button class="dmList" *ngFor="let receiver of dmList$ | async" (click)="selectDm(receiver.userId)">
+      <button class="dmList" *ngFor="let receiver of dmList$ | async" 
+      [class.active]="selectedReceiverId === receiver.userId"
+      (click)="selectDm(receiver.userId)">
         {{ receiver.username }}
       </button>
     </div>
   </div>
-  
   <div class="nowDmContainer">
+    <p>
+      <button *ngIf="isMobileView" class="back-button" (click)="toggleReceiverList()">
+        <i class="fas fa-arrow-left"></i> Back
+      </button>
+      <span>{{ selectedUsername  }}</span>
+    </p>
     <div class="messageListContainer" #messageListContainer>
       <div class="messageContainer" *ngFor="let msg of messages"
       [ngClass]="{'myMessage': msg.senderId === userId, 'otherMessage': msg.senderId !== userId}">
