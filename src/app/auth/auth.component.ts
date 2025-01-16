@@ -97,6 +97,12 @@ export class AuthComponent {
         } else if (err.status === 401) {
           console.error('Unauthorized: Incorrect username or password.');
           alert('Incorrect username or password.');
+        } else if (err.status === 409) {
+          console.error('Unauthorized: Email is not confirmed.');
+          alert('Email is not confirmed.');
+        } else if (err.status === 404) {
+          console.error('Unauthorized: User not found.');
+          alert('User not found.');
         } else if (err.status === 500) {
           console.error('Server Error: Please try again later.');
           alert('Server Error: Please try again later.');
@@ -127,8 +133,8 @@ export class AuthComponent {
       },
       error: (err) => {
         if (err.status === 400) {
-          console.error('Bad Request: ID or Username already in use.');
-          alert('Bad Request: ID or Username already in use.');
+          console.error('Bad Request: ID or Username or Email already in use.');
+          alert('Bad Request: ID or Username or Email already in use.');
         } else if (err.status === 401) {
           console.error('Unauthorized: Incorrect username or password.');
           alert('Incorrect username or password.');

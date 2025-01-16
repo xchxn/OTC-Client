@@ -22,6 +22,8 @@ interface objektFilter {
   styleUrl: './post.component.scss'
 })
 export class PostComponent {
+  userId!: any;
+
   postingForm!: FormGroup;
   objektFilter!: objektFilter;
   objektFilterForm!: FormGroup;
@@ -30,13 +32,19 @@ export class PostComponent {
   check!: string;
   constructor(
     private postService: PostService,
-    private cookieService: CookieService,
     private formBuilder: FormBuilder,
     private router: Router
   ) {
     this.loadData();
   }
   ngOnInit() {
+    this.userId = localStorage.getItem('userId');
+
+    if (!this.userId) {
+      alert("Please Login!");
+      this.router.navigate([`/auth`]);
+    }
+
     this.postingForm = this.formBuilder.group({
       title: [''],
       content: [''],

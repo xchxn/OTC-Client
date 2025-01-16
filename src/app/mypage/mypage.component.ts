@@ -34,12 +34,13 @@ export class MypageComponent {
       alert("Please Login!");
       this.router.navigate([`/auth`]);
     }
+    else {
+      this.updateForm = this.formBuilder.group({
+        username: [''],
+      });
 
-    this.updateForm = this.formBuilder.group({
-      username: [''],
-    });
-
-    this.loadData();
+      this.loadData();
+    }
   }
 
   loadData(): void {

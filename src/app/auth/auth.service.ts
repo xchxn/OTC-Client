@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, switchMap } from 'rxjs';
 import { environment } from '../../environments/environments';
@@ -10,6 +10,13 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   apiUrl = environment.apiUrl;
+  
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+      'Content-Type': 'application/json'
+    })
+  };
 
   // 로그인 상태를 관리하는 BehaviorSubject
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
@@ -18,9 +25,7 @@ export class AuthService {
   
   constructor(
     private http: HttpClient,
-    private cookieService: CookieService,
     private router: Router
-
   ) { }
 
   login(id: string, password: string): Observable<any> {
@@ -65,22 +70,10 @@ export class AuthService {
     return token;
   }
 
-  // 토큰 갱신 API 호출
-  refreshToken(): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/auth/refresh`, {
-      refreshToken: this.getRefreshToken(),
-    }).pipe(
-      switchMap((response) => {
-        this.storeAccessToken(response.accessToken); // 갱신된 토큰을 저장
-        return of(response);
-      })
-    );
-  }
-
   // 갱신된 액세스 토큰 저장
-  private storeAccessToken(token: string): void {
-    localStorage.setItem('accessToken', token);
-    // this.cookieService.set('accessToken', token);
+  storeToken(token: any): void {
+    localStorage.setItem('accessToken', token.accessToken);
+    localStorage.setItem('refreshToken', token.refreshToken);
   }
 
   // Refresh token을 가져오는 메서드 (예: 쿠키 또는 로컬 스토리지에서 가져오기)
@@ -89,14 +82,7 @@ export class AuthService {
   }
 
   // Request new access token
-  requestAccessToken(): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/auth/refresh`, {
-      refreshToken: this.getRefreshToken(),
-    }).pipe(
-      switchMap((response) => {
-        this.storeAccessToken(response.accessToken); // 갱신된 토큰을 저장
-        return of(response);
-      })
-    );
+  requestAccessToken(body: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/refresh`,{ refreshToken: body }, this.httpOptions);
   }
 }

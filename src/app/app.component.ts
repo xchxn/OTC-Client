@@ -44,9 +44,10 @@ export class AppComponent {
     }
     
       // 토큰 만료 확인
-      this.authService.requestAccessToken().subscribe({
+      this.authService.requestAccessToken(localStorage.getItem('refreshToken')).subscribe({
         next: (response) => {
-          console.log('Access token refreshed successfully!');
+          this.authService.storeToken(response);
+          console.log('Access token refreshed successfully!', response);
         },
         error: (error) => {
           console.error('Failed to refresh access token:', error);

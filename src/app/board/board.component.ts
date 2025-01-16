@@ -73,6 +73,13 @@ export class BoardComponent {
       })
     });
 
+    this.objektFilter = {
+      season: [],
+      member: [],
+      collectionNo: [],
+      classes: []
+    };
+
     this.objektFilterForm = this.formBuilder.group({
       season: [''],
       member: [''],
