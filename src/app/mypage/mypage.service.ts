@@ -26,6 +26,6 @@ export class MypageService {
   }
 
   deleteMyInfo(body: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/mypage/myDelete`, body, this.httpOptions);
+    return this.http.post<any>(`${this.apiUrl}/mypage/myDelete`, { userId: body }, this.httpOptions);
   }
 }
