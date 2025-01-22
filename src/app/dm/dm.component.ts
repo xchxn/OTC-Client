@@ -24,6 +24,7 @@ export class DmComponent {
   messages: Array<{ senderId: string, message: string }> = [];
   messageSubscription!: Subscription;
   fetchMessagesSubscription!: Subscription;
+  dmReceiverSubscription!: Subscription;
 
   // 디엠 유저 목록
   // dmList: Set<string> = new Set();
@@ -77,16 +78,7 @@ export class DmComponent {
       message: this.formBuilder.control('', Validators.required)
     });
 
-    const idData = { senderId: this.userId };
-
-    // DM 리스트 가져오기
-    this.dmService.getReceivers(idData);
-
-    this.dmService.onReceivers().subscribe((receivers: Array<{ userId: string }>) => {
-      // this.dmList = new Set(receivers); // 배열을 Set으로 변환하여 할당
-      this.dmList = receivers;
-      this.dmList$.next(this.dmList);
-    });
+    this.getDmList();
 
     // 새로운 메시지 수신 구독
     this.messageSubscription = this.dmService.onMessage().subscribe((message) => {
@@ -98,6 +90,16 @@ export class DmComponent {
         this.dmList.push({ userId: message.senderId });
         this.dmList$.next(this.dmList);
       }
+    });
+  }
+
+  getDmList(): any {
+    const idData = { senderId: this.userId };
+    this.dmService.getReceivers(idData);
+
+    this.dmReceiverSubscription = this.dmService.onReceivers().subscribe((receivers: Array<{ userId: string, usernam?: string }>) => {
+      this.dmList = receivers;
+      this.dmList$.next(this.dmList);
     });
   }
 
@@ -114,14 +116,21 @@ export class DmComponent {
     }
   }
 
-  // Dm리스트에서 하나를 선택했을 때 소켓 연결?
-  // receiverId: string
   selectDm(receiver: string): void {
     this.isInitialLoad = true;
     this.selectedReceiverId = receiver;
 
     const selectedUser = this.dmList.find(dm => dm.userId === receiver);
-    this.selectedUsername = selectedUser?.username || receiver;
+    if(!selectedUser) {
+      this.selectedUsername = 'New Message';
+      this.getDmList();
+
+      setTimeout(() => {
+        this.selectDm(receiver);
+      }, 100);
+    } else {
+      this.selectedUsername = selectedUser?.username || 'New Message';
+    }
 
     if (this.isMobileView) {
       this.showReceiverList = false;
@@ -188,6 +197,9 @@ export class DmComponent {
     }
     if (this.fetchMessagesSubscription) {
       this.fetchMessagesSubscription.unsubscribe();
+    }
+    if (this.dmReceiverSubscription) {
+      this.dmReceiverSubscription.unsubscribe();
     }
   }
 }

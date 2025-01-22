@@ -39,10 +39,10 @@
       <div class="button-group end">
         <button type="button" class="btn secondary" (click)="addObjektToHaveArray()" aria-label="Find Have items">
           Add to Have
-          </button>
+        </button>
         <button type="button" class="btn primary" (click)="addObjektToWantArray()" aria-label="Find Want items">
           Add to Want
-          </button>
+        </button>
       </div>
     </div>
 
@@ -135,7 +135,7 @@
         <button type="button" class="username-button" (click)="showMenu(posting)">
           {{ posting.auth_username }}
         </button>
-        <div class="menu" *ngIf="showMenuId === posting.posting_id">
+        <!-- <div class="menu" *ngIf="showMenuId === posting.posting_id">
           <button type="button" (click)="goDM(posting.posting_userId, posting.auth_username)">
             <i class="fa-solid fa-message"></i>
             <span>DM</span>
@@ -144,7 +144,7 @@
             <i class="fa-solid fa-close"></i>
             <span>Close</span>
           </button>
-        </div>
+        </div> -->
       </div>
 
       <div class="post-actions" *ngIf="userId === posting.posting_userId">
@@ -160,7 +160,7 @@
             <i class="fa-solid fa-trash"></i>
             <span>Delete</span>
           </button>
-          <button type="button"(click)="showPostActions(posting)">
+          <button type="button" (click)="showPostActions(posting)">
             <i class="fa-solid fa-close"></i>
             <span>Close</span>
           </button>
@@ -172,8 +172,8 @@
       <ng-container *ngIf="updateMode && userId === posting.posting_userId; else viewContent">
         <div class="form-group">
           <label for="content-{{posting.posting_id}}">Content</label>
-          <input type="text" id="content-{{posting.posting_id}}" class="form-control" [(ngModel)]="posting.posting_content"
-            placeholder="Enter content" />
+          <input type="text" id="content-{{posting.posting_id}}" class="form-control"
+            [(ngModel)]="posting.posting_content" placeholder="Enter content" />
         </div>
       </ng-container>
       <ng-template #viewContent>
@@ -233,10 +233,98 @@
           </div>
         </div>
       </div>
+
+      <div class="updateModeButton" *ngIf="userId === posting.posting_userId && updateMode">
+        <button type="button" (click)="updatePosting(posting.posting_id)">Update</button>
+        <button type="button" (click)="changeUpdateMode()">Cancel</button>
+      </div>
     </div>
-    <div class="updateModeButton" *ngIf="userId === posting.posting_userId && updateMode">
-      <button type="button" (click)="updatePosting(posting.posting_id)">Update</button>
-      <button type="button" (click)="changeUpdateMode()">Cancel</button>
+
+    <div class="commentSection">
+      <button class="btn-comment" (click)="toggleComments(posting)">
+        Show Comments
+      </button>
+
+      <div class="comments" *ngIf="toggleCommentsId === posting.posting_id">
+        <!-- 댓글 목록 -->
+        <div class="comment-list">
+          @for (comment of posting.posting_comment; track comment.comment_id) {
+          @if (!comment.comment_replyTargetCommentId) {
+          <div class="comment">
+            <div class="comment-content" (click)="setReplyTarget(comment.comment_id)">
+              <div class="comment-header">
+                <span class="username">{{ comment.auth_username }}</span>
+              </div>
+              <p>{{ comment.comment_content }}</p>
+            </div>
+            <button *ngIf="userId === comment.comment_userId" class="btn-delete"
+              (click)="deleteComment(posting, comment.comment_id)">
+              Delete
+            </button>
+            <!-- 답글 -->
+            @for (reply of posting.posting_comment; track reply.comment_id) {
+            @if (reply.comment_replyTargetCommentId === comment.comment_id) {
+            <div class="reply">
+              <div class="reply-content" (click)="setReplyTarget(reply.comment_replyTargetCommentId)">
+                <div class="reply-header">
+                  <span class="username">{{ reply.auth_username }}</span>
+                </div>
+                <p>{{ reply.comment_content }}</p>
+              </div>
+              <button *ngIf="userId === reply.comment_userId" class="btn-delete"
+                (click)="deleteComment(posting, reply.comment_id)">
+                Delete
+              </button>
+            </div>
+            }
+            }
+          </div>
+          }
+          }
+        </div>
+
+        <!-- 댓글 입력 -->
+        <div class="comment-input">
+          <form [formGroup]="commentForm" (ngSubmit)="createComment(posting)" class="comment-form">
+            @if(!replyTargetCommentId) {
+            <div class="form-group">
+              <label for="comment">Comment</label>
+              <input type="text" id="comment" formControlName="comment" class="form-control"
+                placeholder="Enter comment">
+            </div>
+            <div class="button-group end">
+              <button type="submit" class="btn primary">
+                Comment
+              </button>
+            </div>
+            <div class="button-group">
+              <button type="button" class="btn" (click)="showComments(posting)">
+                Refresh
+              </button>
+            </div>
+            }
+            @else {
+            <div class="form-group">
+              <label for="reply">Reply</label>
+              <input type="text" id="comment" formControlName="comment" class="form-control" placeholder="Enter reply">
+            </div>
+            <div class="button-group end">
+              <button type="button" class="btn secondary" (click)="resetReplyTarget()">
+                Return to Comment
+              </button>
+              <button type="submit" class="btn primary">
+                Reply
+              </button>
+            </div>
+            <div class="button-group">
+              <button type="button" class="btn" (click)="showComments(posting)">
+                Refresh
+              </button>
+            </div>
+            }
+          </form>
+        </div>
+      </div>
     </div>
   </div>
   }

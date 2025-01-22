@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { io, Socket } from 'socket.io-client';
 import { environment } from '../../environments/environments';
 
@@ -11,7 +11,10 @@ import { environment } from '../../environments/environments';
 export class DmService {
   private socket!: Socket;
   apiUrl = environment.apiUrl;
-  
+
+  private selectedReceiverSubject = new BehaviorSubject<string>('');
+  selectedReceiver$ = this.selectedReceiverSubject.asObservable();
+
   constructor(
     private http: HttpClient,
   ) {
@@ -53,6 +56,10 @@ export class DmService {
   // 특정 사용자와의 메시지 기록을 서버에 요청
   fetchMessages(senderId: string, receiverId: string): void {
     this.socket.emit('fetchMessages', { senderId, receiverId });
+  }
+
+  setSelectedReceiver(userId: string) {
+    this.selectedReceiverSubject.next(userId);
   }
 
   // 서버로부터 받은 메시지 기록을 구독

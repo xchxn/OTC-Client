@@ -10,7 +10,7 @@ export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'auth', component: AuthComponent },
   { path: 'board', component: BoardComponent },
-  { path: 'dm', component: DmComponent },
+  // { path: 'dm', component: DmComponent },
   { path: 'post', component: PostComponent },
   { path: 'mypage', component: MypageComponent },
   { path: '**', redirectTo: '' },
