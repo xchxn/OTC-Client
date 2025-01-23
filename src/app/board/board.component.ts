@@ -452,8 +452,12 @@ export class BoardComponent {
         },
         error: (err) => {
           if(err.status === 401) {
+            alert('No Authorization, please login');
             console.log('No Authorization');
-          } else {
+          } else if(err.status === 500) {
+            console.log('Server Error');
+            alert('Server Error');
+          }  else {
             alert('An unknown error occurred:');
           }
         },
@@ -476,7 +480,11 @@ export class BoardComponent {
       },
       error: (err) => {
         if(err.status === 401) {
+          alert('No Authorization, please login');
           console.log('No Authorization');
+        } else if(err.status === 500) {
+          console.log('Server Error');
+          alert('Server Error');
         } else {
           alert('An unknown error occurred:');
         }
