@@ -26,7 +26,7 @@ export class BoardService {
   }
 
   searchObjekt(body: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/search/mtom`, { objekts: body }, this.httpOptions);
+    return this.http.post<any>(`${this.apiUrl}/search/objekt`, { objekts: body }, this.httpOptions);
   }
 
   searchWithPosting(body: any): Observable<any> {
