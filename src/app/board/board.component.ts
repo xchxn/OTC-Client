@@ -274,6 +274,10 @@ export class BoardComponent {
       error: (err) => {
         if (err.status === 400) {
           alert('You have postings more than one, please make your posting one');
+        } else if (err.status === 404) {
+          alert('No data found');
+        } else if (err.status === 500) {
+          alert('Makes your postings');
         } else {
           console.error('An error occurred:', err);
           alert('An unknown error occurred:');

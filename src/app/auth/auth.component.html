@@ -1,3 +1,10 @@
+<div *ngIf="loading" class="loading-spinner">
+  <!-- 로딩 인디케이터 표시 (예: spinner) -->
+  <div class="spinner">
+    Loading...
+  </div>
+</div>
+
 <div class="container">
   <form class="loginForm" *ngIf="isLoginMode" [formGroup]="loginForm" (ngSubmit)="login()">
     <h2>Login</h2>

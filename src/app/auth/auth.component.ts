@@ -42,7 +42,10 @@ export class AuthComponent {
 
   errorMessage = signal('');
 
+  loading: boolean = false;
+
   hide = signal(true);
+
   clickEvent(event: MouseEvent) {
     this.hide.set(!this.hide());
     event.stopPropagation();
@@ -124,6 +127,9 @@ export class AuthComponent {
       email: this.registerForm.value.email,
       password: this.registerForm.value.password
     }
+
+    this.loading = true;
+
     this.authservice.register(registerBody).subscribe({
       next: (res) => {
         console.log('Register in successfully!', res);
