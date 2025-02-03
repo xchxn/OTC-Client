@@ -1,27 +1,44 @@
-# Frontend
+# OTC (Objekt Trade) - Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.1.1.
+## 프로젝트 소개
 
-## Development server
+이 프로젝트는 Objekt Trade 플랫폼의 프론트엔드 애플리케이션입니다. Angular 프레임워크를 기반으로 구축되었으며, 사용자 친화적인 인터페이스를 제공합니다.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## 주요 기능
 
-## Code scaffolding
+- 사용자 인증 및 권한 관리
+- 실시간 메시징 인터페이스
+- 반응형 디자인
+- 실시간 데이터 업데이트
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## 기술 스택
 
-## Build
+- Angular
+- TypeScript
+- Socket.IO-client
+- Angular Material
+- RxJS
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## 시작하기
 
-## Running unit tests
+### 환경 설정
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+1. 프로젝트 클론
+```bash
+git clone [repository-url]
+cd frontend
+```
+2. 의존성 설치
+```bash
+npm install
+```
+3. 실행
+```bash
+npm start
+```
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+프로젝트 구조
+src/
+├── app/                # 애플리케이션 코어 모듈
+├── environments/      # 환경 설정 파일
+└── styles.scss         # 글로벌 스타일 파일
