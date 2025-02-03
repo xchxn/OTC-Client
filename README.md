@@ -1,5 +1,11 @@
 # OTC (Objekt Trade) - Frontend
 
+## Website
+https://objekt.my/
+
+### Origin Repository
+https://github.com/xchxn/OTP
+
 ## 프로젝트 소개
 
 이 프로젝트는 Objekt Trade 플랫폼의 프론트엔드 애플리케이션입니다. Angular 프레임워크를 기반으로 구축되었으며, 사용자 친화적인 인터페이스를 제공합니다.
@@ -25,7 +31,7 @@
 
 1. 프로젝트 클론
 ```bash
-git clone [repository-url]
+git clone https://github.com/xchxn/OTC-Client.git
 cd frontend
 ```
 2. 의존성 설치
