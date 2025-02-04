@@ -92,8 +92,10 @@ export class MypageComponent {
           localStorage.removeItem('userId');
           localStorage.removeItem('accessToken');
           localStorage.removeItem('refreshToken');
+
+          this.authService.logout();
           alert('Successfully deleted my info.');
-          this.router.navigate(['/auth']);
+          window.location.reload();
         },
         error: (err) => {
           if (err.status === 404) {
@@ -103,7 +105,6 @@ export class MypageComponent {
           }
         },
         complete: () => {
-          this.authService.logout();
           this.router.navigate(['/auth']);
         }
       });
