@@ -68,11 +68,9 @@ export class PostComponent {
     this.postService.getSelectOption().subscribe({
       next: (data) => {
         this.objektFilter = data;
-        console.log(this.objektFilter);
       },
       error: (err) => console.error(err),
       complete: () => {
-        console.log('Data loading complete');
         this.objektFilterForm.reset();
       }
     });
@@ -84,17 +82,13 @@ export class PostComponent {
 
     this.postService.getTargetObjekt(objektFormValue).subscribe({
       next: (data) => {
-        console.log(data.id);
-
         const haveArray = this.postingForm.get('objekt.have') as FormArray;
         haveArray.push(this.formBuilder.control(data.id));
         this.getThumbnail();
       },
       error: (err) => {
-        console.error(err);
         alert('objekt is not exist');
-      },
-      complete: () => console.log('Data loading complete')
+      }
     });
   }
 
@@ -103,17 +97,13 @@ export class PostComponent {
 
     this.postService.getTargetObjekt(objektFormValue).subscribe({
       next: (data) => {
-        console.log(data.id);
-
         const wantArray = this.postingForm.get('objekt.want') as FormArray;
         wantArray.push(this.formBuilder.control(data.id));
         this.getThumbnail();
       },
       error: (err) => {
-        console.error(err);
         alert('objekt is not exist');
       },
-      complete: () => console.log('Data loading complete')
     });
   }
 
@@ -130,12 +120,9 @@ export class PostComponent {
       }
       this.postService.getThumbnail(haveValue).subscribe({
         next: (data) => {
-          // 썸네일 주소 배열에 data 추가
-          console.log(data.thumbnailImage);
           this.haveObjektThumbnail.push(data);
         },
         error: (err) => console.error(err),
-        complete: () => console.log('Thumbnail loading complete')
       });
     });
 
@@ -146,12 +133,9 @@ export class PostComponent {
       }
       this.postService.getThumbnail(wantValue).subscribe({
         next: (data) => {
-          // 썸네일 주소 배열에 data 추가
-          console.log(data.thumbnailImage);
           this.wantObjektThumbnail.push(data);
         },
         error: (err) => console.error(err),
-        complete: () => console.log('Thumbnail loading complete')
       });
     });
   }
@@ -182,16 +166,12 @@ export class PostComponent {
     this.postService.createPosting(postData).subscribe({
       next: (data) => {
         // Board로 리다이렉션
-        console.log(data);
         this.router.navigate(['/board'])
       },
       error: (err) => {
         console.error(err);
         alert('Failed to create posting');
       },
-      complete: () => {
-        console.log('Data loading complete');
-      }
     })
   }
 }

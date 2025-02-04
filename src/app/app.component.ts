@@ -30,7 +30,6 @@ export class AppComponent {
   // 로그아웃 함수
   logout() {
     this.authService.logout();
-    // this.router.navigate(['/auth']); // 로그아웃 후 로그인 페이지로 이동
   }
 
   ngOnInit() {
@@ -47,13 +46,12 @@ export class AppComponent {
       this.authService.requestAccessToken(localStorage.getItem('refreshToken')).subscribe({
         next: (response) => {
           this.authService.storeToken(response);
-          console.log('Access token refreshed successfully!', response);
         },
         error: (error) => {
           console.error('Failed to refresh access token:', error);
-        },
-        complete: () => {
-          console.log('Access token refresh complete!');
+          if(!localStorage.getItem('refreshToken')) {
+            this.authService.logout();
+          }
         }
       });
 
@@ -79,7 +77,6 @@ export class AppComponent {
         filter((event: NavigationEnd) => event.url.startsWith('/?accessToken'))
       )
       .subscribe((event: NavigationEnd) => {
-        console.log('Route changed, do something:', event.url);
         // 현재 URL에서 토큰 추출
         const data = this.getTokenFromUrl();
         if (data) {

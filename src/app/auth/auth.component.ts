@@ -95,19 +95,14 @@ export class AuthComponent {
       },
       error: (err) => {
         if (err.status === 400) {
-          console.error('Bad Request: Invalid login credentials.');
           alert('Bad Request: Invalid login credentials.');
         } else if (err.status === 401) {
-          console.error('Unauthorized: Incorrect username or password.');
           alert('Incorrect username or password.');
         } else if (err.status === 409) {
-          console.error('Unauthorized: Email is not confirmed.');
           alert('Email is not confirmed.');
         } else if (err.status === 404) {
-          console.error('Unauthorized: User not found.');
           alert('User not found.');
         } else if (err.status === 500) {
-          console.error('Server Error: Please try again later.');
           alert('Server Error: Please try again later.');
         } else {
           console.error('An unknown error occurred:', err.message);
@@ -132,7 +127,7 @@ export class AuthComponent {
 
     this.authservice.register(registerBody).subscribe({
       next: (res) => {
-        console.log('Register in successfully!', res);
+        this.loading = false;
         // 이메일 인증 후 로그인 해주세요 팝업
         alert('Successfully registered! Please check your email for verification.');
         this.router.navigate([`/`]);
@@ -151,8 +146,11 @@ export class AuthComponent {
           console.error('An unknown error occurred:', err.message);
           alert('An unknown error occurred:');
         }
+        this.loading = false;
       },
-      complete: () => console.log('register success, please confirm email')
+      complete: () => {
+        this.loading = false;
+      }
     });
   }
 

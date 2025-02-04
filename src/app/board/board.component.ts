@@ -155,13 +155,11 @@ export class BoardComponent {
       },
       error: (err) => {
         if (err.status === 404) {
-          console.log('No data found');
+          alert('Data not found error');
         } else {
-          console.error('Error fetching data', err);
-          alert('An unknown error occurred:');
+          alert('An unknown error occurred');
         } 
-      },
-      complete: () => console.log('Data loading complete')
+      }
     });
   }
 
@@ -174,10 +172,8 @@ export class BoardComponent {
         haveArray.push(this.formBuilder.control(data));
       },
       error: (err) => {
-        console.error(err);
         alert('objekt가 존재하지 않음');
       },
-      complete: () => console.log('Data loading complete')
     });
   }
 
@@ -190,10 +186,8 @@ export class BoardComponent {
         wantArray.push(this.formBuilder.control(data));
       },
       error: (err) => {
-        console.error(err);
         alert('objekt가 존재하지 않음');
       },
-      complete: () => console.log('Data loading complete')
     });
   }
 
@@ -209,11 +203,9 @@ export class BoardComponent {
         this.postService.getThumbnail(haveValue).subscribe({
           next: (data) => {
             // 썸네일 주소 배열에 data 추가
-            console.log(data);
             posting.thumbnails.have.push(data);
           },
           error: (err) => console.error(err),
-          complete: () => console.log('Thumbnail loading complete')
         });
       });
 
@@ -227,7 +219,6 @@ export class BoardComponent {
             posting.thumbnails.want.push(data);
           },
           error: (err) => console.error(err),
-          complete: () => console.log('Thumbnail loading complete')
         });
       });
     });
@@ -253,7 +244,6 @@ export class BoardComponent {
         this.getThumbnail();
       },
       error: (err) => console.error(err),
-      complete: () => console.log('Thumbnail loading complete')
     });
   }
 
@@ -279,11 +269,9 @@ export class BoardComponent {
         } else if (err.status === 500) {
           alert('Makes your postings');
         } else {
-          console.error('An error occurred:', err);
           alert('An unknown error occurred:');
         }
       },
-      complete: () => console.log('Thumbnail loading complete')
     });
   }
 
@@ -313,16 +301,12 @@ export class BoardComponent {
       // 서버에 업데이트 요청
       this.boardService.updatePosting(updatedData).subscribe({
         next: (response) => {
-          console.log('Posting updated successfully:', response);
           this.changeUpdateMode(); // 업데이트 모드를 비활성화
           // window.location.reload();
           this.loadData();
         },
         error: (err) => {
-          console.error('Error updating posting:', err);
-        },
-        complete: () => {
-          console.log('Update complete');
+          alert('Error updating posting');
         }
       });
     }
@@ -396,11 +380,10 @@ export class BoardComponent {
           console.log('No data found');
         } else {
           console.error('Error deleting posting:', err);
-          alert('An unknown error occurred:');
+          alert('Error deleting posting');
         }
       },
       complete: () => {
-        console.log('Delete complete');
         this.loadData();
       }
     });
@@ -470,7 +453,6 @@ export class BoardComponent {
   }
 
   createReply(comment_id:number, posting:Posting) {
-    console.log("target reply comment id",comment_id);
     this.boardService.createReply({ 
       posting_id: posting.posting_id,
       replyTargetCommentId: comment_id,
@@ -501,7 +483,6 @@ export class BoardComponent {
       comment_id: comment_id,
     }).subscribe({
       next: (data) => {
-        console.log('Comment delete successfully:', data);
         this.showComments(posting);
       },
       error: (err) => {

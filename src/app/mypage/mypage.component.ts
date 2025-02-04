@@ -59,7 +59,6 @@ export class MypageComponent {
           alert('Failed to load user information.');
         }
       },
-      complete: () => console.log('Data loading complete')
     });
   }
 
@@ -68,7 +67,6 @@ export class MypageComponent {
 
     this.mypageService.updateMyInfo(JSON.stringify({ userId: this.userId, ...updateFormValue })).subscribe({
       next: (data) => {
-        console.log(data);
         alert('Successfully updated my info.');
       },
       error: (err) => {
@@ -81,7 +79,6 @@ export class MypageComponent {
         }
       },
       complete: () => {
-        console.log('Update complete');
         this.loadData();
         this.router.navigate(['/'])
       }
@@ -92,7 +89,6 @@ export class MypageComponent {
     if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
       this.mypageService.deleteMyInfo(this.userId).subscribe({
         next: (data) => {
-          console.log('Delete successful:', data);
           localStorage.removeItem('userId');
           localStorage.removeItem('accessToken');
           localStorage.removeItem('refreshToken');
@@ -107,7 +103,7 @@ export class MypageComponent {
           }
         },
         complete: () => {
-          console.log('Delete complete');
+          this.authService.logout();
           this.router.navigate(['/auth']);
         }
       });
