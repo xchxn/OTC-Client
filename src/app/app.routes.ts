@@ -5,6 +5,7 @@ import { DmComponent } from './dm/dm.component';
 import { PostComponent } from './post/post.component';
 import { HomeComponent } from './home/home.component';
 import { MypageComponent } from './mypage/mypage.component';
+import { DocsComponent } from './docs/docs.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -13,5 +14,6 @@ export const routes: Routes = [
   // { path: 'dm', component: DmComponent },
   { path: 'post', component: PostComponent },
   { path: 'mypage', component: MypageComponent },
+  { path: 'docs', component: DocsComponent },
   { path: '**', redirectTo: '' },
 ];
